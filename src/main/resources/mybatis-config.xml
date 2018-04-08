@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>	
+	
+	<!-- 驼峰命名法  -->
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	
+	<!--
+		typeAliases 昵称标签
+		package：类所在包名，声明以后，只需要填写包下的类名  批量起别名
+		typeAlias：一个类一个别名
+	  -->
+	<typeAliases>
+		 <package name="com.ssm"/> 	
+	</typeAliases>
+	
+</configuration>
