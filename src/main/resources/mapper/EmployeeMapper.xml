@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xuezhi.crud.dao.EmployeeMapper">
+  <!-- 定义resultMap -->
   <resultMap id="BaseResultMap" type="com.xuezhi.crud.bean.Employee">
     <id column="emp_id" jdbcType="INTEGER" property="empId" />
     <result column="emp_name" jdbcType="VARCHAR" property="empName" />
@@ -8,6 +9,20 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="d_Id" jdbcType="INTEGER" property="dId" />
   </resultMap>
+  
+  <!-- 定义带有一对一的resultMap -->
+  <resultMap id="BaseResultMapWithDept" type="com.xuezhi.crud.bean.Employee">
+    <id column="emp_id" jdbcType="INTEGER" property="empId" />
+    <result column="emp_name" jdbcType="VARCHAR" property="empName" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="d_Id" jdbcType="INTEGER" property="dId" />
+    <association property="department" javaType="com.ssm.crud.bean.Department">
+    	<id column="dept_id" jdbcType="INTEGER" property="deptId" />
+    	<result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    </association>
+  </resultMap>
+  
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -37,6 +52,7 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Update_By_Example_Where_Clause">
     <where>
       <foreach collection="example.oredCriteria" item="criteria" separator="or">
@@ -66,12 +82,16 @@
       </foreach>
     </where>
   </sql>
+  
   <sql id="Base_Column_List">
     emp_id, emp_name, gender, email, d_Id
   </sql>
+  
   <sql id="Base_Column_List_Dept">
     emp_id, emp_name, gender, email, d_Id,dept_Id,dept_Name
   </sql>
+  
+  <!-- 查询所有  -->
   <select id="selectByExample" parameterType="com.xuezhi.crud.bean.EmployeeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -86,8 +106,8 @@
       order by ${orderByClause}
     </if>
   </select>
-  
-  <select id="selectByExampleWithDept" parameterType="com.xuezhi.crud.bean.EmployeeExample" resultMap="BaseResultMap">
+  <!-- 一对一的查询所有 -->
+  <select id="selectByExampleWithDept" parameterType="com.xuezhi.crud.bean.EmployeeExample" resultMap="BaseResultMapWithDept">
     select
     <if test="distinct">
       distinct
@@ -101,12 +121,23 @@
       order by ${orderByClause}
     </if>
   </select>
+  
+  <!-- 根据id查询员工 -->
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tbl_emp
+    from tbl_emp 
     where emp_id = #{empId,jdbcType=INTEGER}
   </select>
+  
+  <!-- 根据id查询员工并关联部门表 -->
+  <select id="selectByPrimaryKeyWithDept" parameterType="java.lang.Integer" resultMap="BaseResultMapWithDept">
+    select 
+    <include refid="Base_Column_List_Dept" />
+    from tbl_emp LEFT JOIN tbl_dept ON tbl_emp.d_Id=tbl_dept.dept_Id
+    where emp_id = #{empId,jdbcType=INTEGER}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tbl_emp
     where emp_id = #{empId,jdbcType=INTEGER}
