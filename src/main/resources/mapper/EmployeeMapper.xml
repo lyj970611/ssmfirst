@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xuezhi.crud.dao.EmployeeMapper">
+<mapper namespace="com.ssm.crud.dao.EmployeeMapper">
   <!-- 定义resultMap -->
-  <resultMap id="BaseResultMap" type="com.xuezhi.crud.bean.Employee">
+  <resultMap id="BaseResultMap" type="com.ssm.crud.bean.Employee">
     <id column="emp_id" jdbcType="INTEGER" property="empId" />
     <result column="emp_name" jdbcType="VARCHAR" property="empName" />
     <result column="gender" jdbcType="VARCHAR" property="gender" />
@@ -11,7 +11,7 @@
   </resultMap>
   
   <!-- 定义带有一对一的resultMap -->
-  <resultMap id="BaseResultMapWithDept" type="com.xuezhi.crud.bean.Employee">
+  <resultMap id="BaseResultMapWithDept" type="com.ssm.crud.bean.Employee">
     <id column="emp_id" jdbcType="INTEGER" property="empId" />
     <result column="emp_name" jdbcType="VARCHAR" property="empName" />
     <result column="gender" jdbcType="VARCHAR" property="gender" />
@@ -52,7 +52,6 @@
       </foreach>
     </where>
   </sql>
-  
   <sql id="Update_By_Example_Where_Clause">
     <where>
       <foreach collection="example.oredCriteria" item="criteria" separator="or">
@@ -82,17 +81,15 @@
       </foreach>
     </where>
   </sql>
-  
   <sql id="Base_Column_List">
     emp_id, emp_name, gender, email, d_Id
   </sql>
   
-  <sql id="Base_Column_List_Dept">
+   <sql id="Base_Column_List_Dept">
     emp_id, emp_name, gender, email, d_Id,dept_Id,dept_Name
-  </sql>
+   </sql>
   
-  <!-- 查询所有  -->
-  <select id="selectByExample" parameterType="com.xuezhi.crud.bean.EmployeeExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.ssm.crud.bean.EmployeeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -106,8 +103,8 @@
       order by ${orderByClause}
     </if>
   </select>
-  <!-- 一对一的查询所有 -->
-  <select id="selectByExampleWithDept" parameterType="com.xuezhi.crud.bean.EmployeeExample" resultMap="BaseResultMapWithDept">
+  
+   <select id="selectByExampleWithDept" parameterType="com.ssm.crud.bean.EmployeeExample" resultMap="BaseResultMapWithDept">
     select
     <if test="distinct">
       distinct
@@ -122,15 +119,13 @@
     </if>
   </select>
   
-  <!-- 根据id查询员工 -->
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from tbl_emp 
+    from tbl_emp
     where emp_id = #{empId,jdbcType=INTEGER}
   </select>
   
-  <!-- 根据id查询员工并关联部门表 -->
   <select id="selectByPrimaryKeyWithDept" parameterType="java.lang.Integer" resultMap="BaseResultMapWithDept">
     select 
     <include refid="Base_Column_List_Dept" />
@@ -142,19 +137,19 @@
     delete from tbl_emp
     where emp_id = #{empId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.xuezhi.crud.bean.EmployeeExample">
+  <delete id="deleteByExample" parameterType="com.ssm.crud.bean.EmployeeExample">
     delete from tbl_emp
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.xuezhi.crud.bean.Employee">
+  <insert id="insert" parameterType="com.ssm.crud.bean.Employee">
     insert into tbl_emp (emp_id, emp_name, gender, 
       email, d_Id)
     values (#{empId,jdbcType=INTEGER}, #{empName,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{dId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.xuezhi.crud.bean.Employee">
+  <insert id="insertSelective" parameterType="com.ssm.crud.bean.Employee">
     insert into tbl_emp
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="empId != null">
@@ -191,7 +186,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.xuezhi.crud.bean.EmployeeExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.ssm.crud.bean.EmployeeExample" resultType="java.lang.Long">
     select count(*) from tbl_emp
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -231,7 +226,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xuezhi.crud.bean.Employee">
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssm.crud.bean.Employee">
     update tbl_emp
     <set>
       <if test="empName != null">
@@ -249,7 +244,7 @@
     </set>
     where emp_id = #{empId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xuezhi.crud.bean.Employee">
+  <update id="updateByPrimaryKey" parameterType="com.ssm.crud.bean.Employee">
     update tbl_emp
     set emp_name = #{empName,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=VARCHAR},

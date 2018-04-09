@@ -1,11 +1,9 @@
 package com.ssm.crud.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.ssm.crud.bean.Department;
 import com.ssm.crud.bean.DepartmentExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface DepartmentMapper {
     long countByExample(DepartmentExample example);

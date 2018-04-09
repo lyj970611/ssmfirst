@@ -1,11 +1,9 @@
 package com.ssm.crud.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.ssm.crud.bean.Employee;
 import com.ssm.crud.bean.EmployeeExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface EmployeeMapper {
     long countByExample(EmployeeExample example);
@@ -21,6 +19,10 @@ public interface EmployeeMapper {
     List<Employee> selectByExample(EmployeeExample example);
 
     Employee selectByPrimaryKey(Integer empId);
+    
+    List<Employee> selectByExampleWithDept(EmployeeExample example);
+
+    Employee selectByPrimaryKeyWithDept(Integer empId);
 
     int updateByExampleSelective(@Param("record") Employee record, @Param("example") EmployeeExample example);
 
