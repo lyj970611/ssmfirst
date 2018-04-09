@@ -43,7 +43,7 @@ public class MapperTest {
 		
 		EmployeeMapper employeeMapper = sqlSession.getMapper(EmployeeMapper.class);
 		for(int i = 0;i<=1000;i++) {
-			String uuid = UUID.randomUUID().toString().substring(0, 6);
+			 String uuid = UUID.randomUUID().toString().substring(0, 6);
 			Employee emp = new Employee();
 			emp.setEmpName(uuid);
 			emp.setGender("F");
